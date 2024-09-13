@@ -10,7 +10,7 @@ function Navbar() {
 
   return (
     <nav className="bg-red-700 text-white flex justify-between items-center">
-      <h1 className="p-5 text-3xl">Donner Chat</h1>
+      <h1 className="p-5 text-3xl">Blood Donation App</h1>
       {user ? (
         <>
           <div className="flex items-center">
