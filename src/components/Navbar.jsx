@@ -10,7 +10,7 @@ function Navbar() {
 
   return (
     <nav className="bg-red-700 text-white flex justify-between items-center">
-      <h1 className="p-5 text-3xl">Blood Donation App</h1>
+      <h1 className="p-5 text-3xl">Blood Bank SMIT</h1>
       {user ? (
         <>
           <div className="flex items-center">
@@ -30,12 +30,17 @@ function Navbar() {
               </li>
               <li>
                 <Link to="/chat" className="hover:text-gray-200">
-                  Chat
+                  Ask For Blood
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-gray-200">
-                  Contact
+                <Link to="/donate" className="hover:text-gray-200">
+                  Donate
+                </Link>
+              </li>
+              <li>
+                <Link to="/doner" className="hover:text-gray-200">
+                  Donors
                 </Link>
               </li>
             </ul>

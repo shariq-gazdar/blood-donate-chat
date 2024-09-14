@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "./Footer";
 
 const ContactPage = () => {
   return (
@@ -7,6 +8,7 @@ const ContactPage = () => {
       <p className="text-gray-700">
         Feel free to reach out for more information.
       </p>
+      <Footer />
     </div>
   );
 };

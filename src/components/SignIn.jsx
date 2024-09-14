@@ -5,54 +5,58 @@ import {
   signOut,
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+
 import React from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 import GoogleButton from "react-google-button";
+// const [user, setUser] = useState("");
 
-function SignIn() {
-  const [user] = useAuthState(auth);
+const googleSignIn = () => {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then(async (result) => {
+      // The signed-in user info.
+      const user = result.user;
+      console.log("User signed in: ", user);
 
-  const googleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const userRef = doc(db, "users", user.uid);
-        console.log(user);
+      // Save user information to Firestore
+      const userRef = doc(db, "users", user.uid); // Create a reference to the users collection
 
-        await setDoc(userRef, {
+      await setDoc(
+        userRef,
+        {
           uid: user.uid,
           displayName: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
-          lastLogin: new Date(),
-        });
+          lastLogin: new Date(), // Timestamp of the last login
+          createdAt: user.metadata.creationTime, // User's account creation time
+        },
+        { merge: true }
+      ); // Merge in case some fields already exist
 
-        // The signed-in user info.
-        const user = result.user;
-        console.log("User signed in: ", user);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.error("Error during sign-in:", errorMessage);
-      });
-  };
-  const signOutUser = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("User signed out");
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-      });
-  };
+      console.log("User info saved to Firestore");
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error during sign-in:", errorMessage);
+    });
+};
+const signOutUser = () => {
+  signOut(auth)
+    .then(() => {
+      console.log("User signed out");
+    })
+    .catch((error) => {
+      console.error("Error signing out:", error);
+    });
+};
 
+function SignIn() {
+  const [user] = useAuthState(auth);
   return (
     <div className="mr-10">
       {user ? (

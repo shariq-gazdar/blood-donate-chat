@@ -2,6 +2,8 @@ import Navbar from "./components/Navbar";
 import Chat from "./components/Chat";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
+import Doner from "./components/Doners";
+import Donate from "./components/Donate";
 import "./index.css";
 import { auth } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -13,7 +15,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="appContainer">
+      <div className="appContainer ">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -29,7 +31,8 @@ function App() {
               )
             }
           />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/doner" element={<Doner />} />
         </Routes>
       </div>
     </BrowserRouter>

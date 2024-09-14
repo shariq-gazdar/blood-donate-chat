@@ -1,5 +1,5 @@
 import React from "react";
-
+import Footer from "./Footer";
 function Home() {
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -71,9 +71,7 @@ function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6 text-center">
-        <p>&copy; 2024 Blood Donation App. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
